@@ -6,9 +6,10 @@
 ** $Id: test.java 42 2008-10-20 09:27:21Z patrick $
 */
 
-// import CurlGlue;
-// import CurlRead;
-// import CurlWrite;
+import se.haxx.curl.CurlGlue;
+import se.haxx.curl.CurlRead;
+import se.haxx.curl.CurlWrite;
+import se.haxx.curl.CurlIO;
 
 class test extends CurlIO {
 

@@ -10,8 +10,8 @@ libcurljava_la_LDFLAGS	=	-version-info @CURLJAVA_SONAME@	\
 
 curljava.o curljava.lo:		CurlGlue.h curljava.c
 
-CurlGlue.h:			CurlGlue.java CurlGlue.class
-	@JAVA_PATH@/javah CurlGlue
+CurlGlue.h:			se/haxx/curl/CurlGlue.java se/haxx/curl/CurlGlue.class
+	@JAVA_PATH@/javah -o CurlGlue.h se.haxx.curl.CurlGlue
 	touch CurlGlue.h
 
 
@@ -21,17 +21,17 @@ CurlGlue.h:			CurlGlue.java CurlGlue.class
 	@JAVA_PATH@/javac $<
 
 
-CLASSES			=	CurlGlue.class				\
-				CurlRead.class				\
-				CurlWrite.class				\
-				CurlIO.class
+CLASSES			=	se/haxx/curl/CurlGlue.class				\
+				se/haxx/curl/CurlRead.class				\
+				se/haxx/curl/CurlWrite.class				\
+				se/haxx/curl/CurlIO.class
 
 jar_DATA		=	curljava.jar
 
 curljava.jar:			$(CLASSES)
 	@JAVA_PATH@/jar cvf $@ $(CLASSES)
 
-CurlGlue.java:	MakeCurlGlue.class					\
+se/haxx/curl/CurlGlue.java:	MakeCurlGlue.class					\
 		@CURL_INC@/curl/curl.h @CURL_INC@/curl/curlver.h
 	$(CC) -E -I@CURL_INC@ @CURL_INC@/curl/curl.h		|	\
 		@JAVA_PATH@/java MakeCurlGlue @CURL_INC@/curl/curlver.h > $@
@@ -45,7 +45,7 @@ test:				test.class
 
 clean-local:
 	$(RM) -rf aclocal.m4.bak
-	$(RM) -rf $(CLASSES) curljava.jar CurlGlue.h CurlGlue.java
+	$(RM) -rf $(CLASSES) curljava.jar CurlGlue.h se/haxx/curl/CurlGlue.java
 	$(RM) -rf test.class cookie.txt
 
 
@@ -65,9 +65,9 @@ OBSOLETE		=	Makefile.unix				\
 
 
 EXTRA_DIST		=	buildconf				\
-				CurlRead.java				\
-				CurlWrite.java				\
-				CurlIO.java				\
+				se/haxx/curl/CurlRead.java				\
+				se/haxx/curl/CurlWrite.java				\
+				se/haxx/curl/CurlIO.java				\
 				MakeCurlGlue.java			\
 				test.java				\
 				README					\

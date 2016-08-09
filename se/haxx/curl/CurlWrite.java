@@ -1,3 +1,5 @@
+package se.haxx.curl;
+
 /*
 ** $Id: CurlWrite.java 42 2008-10-20 09:27:21Z patrick $
 */

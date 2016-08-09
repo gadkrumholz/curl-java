@@ -26,6 +26,8 @@
 #include <curl/curl.h> /* libcurl header */
 #include "CurlGlue.h"  /* the JNI-generated glue header file */
 
+#define DEBUG
+
 /*
  * This is a private struct allocated for every 'CurlGlue' object.
  */
@@ -49,14 +51,14 @@ struct curljava {
  * CurlGlue.version()
  */
 
-JNIEXPORT jstring JNICALL Java_CurlGlue_version(JNIEnv * java, jclass myclass)
+JNIEXPORT jstring JNICALL Java_se_haxx_curl_CurlGlue_version(JNIEnv * java, jclass myclass)
 
 {
   return (*java)->NewStringUTF(java, curl_version());
 }
 
 
-JNIEXPORT jint JNICALL Java_CurlGlue_jni_1init(JNIEnv *java,
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_jni_1init(JNIEnv *java,
                                                jobject myself)
 {
   void *libhandle;
@@ -80,7 +82,7 @@ JNIEXPORT jint JNICALL Java_CurlGlue_jni_1init(JNIEnv *java,
   return (jint) jcurl; /* nasty typecast */
 }
 
-JNIEXPORT void JNICALL Java_CurlGlue_jni_1cleanup(JNIEnv *java,
+JNIEXPORT void JNICALL Java_se_haxx_curl_CurlGlue_jni_1cleanup(JNIEnv *java,
                                                   jobject myself,
                                                   jint jcurl)
 {
@@ -107,7 +109,7 @@ JNIEXPORT void JNICALL Java_CurlGlue_jni_1cleanup(JNIEnv *java,
 /*
  * setopt() int + string
  */
-JNIEXPORT jint JNICALL Java_CurlGlue_jni_1setopt__IILjava_lang_String_2
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_jni_1setopt__IILjava_lang_String_2
   (JNIEnv *java, jobject myself, jint jcurl, jint option, jstring value)
 {
   /* get the actual string C-style */
@@ -126,7 +128,7 @@ JNIEXPORT jint JNICALL Java_CurlGlue_jni_1setopt__IILjava_lang_String_2
 /*
  * setopt() int + int
  */
-JNIEXPORT jint JNICALL Java_CurlGlue_jni_1setopt__III
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_jni_1setopt__III
   (JNIEnv *java, jobject myself, jint jcurl, jint option, jint value)
 {
   void *handle = (void *)((struct curljava*)jcurl)->libcurl;
@@ -189,7 +191,7 @@ static int curljava_write_callback(void *ptr,
  * setopt() int + object
  */
 
-JNIEXPORT jint JNICALL Java_CurlGlue_jni_1setopt__IILCurlWrite_2
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_jni_1setopt__IILse_haxx_curl_CurlWrite_2
   (JNIEnv *java, jobject myself, jint jcurl, jint option, jobject object)
 {
   jclass cls_local = (*java)->GetObjectClass(java, object);
@@ -272,7 +274,7 @@ static int curljava_read_callback(void *ptr,
  * setopt() int + object
  */
 
-JNIEXPORT jint JNICALL Java_CurlGlue_jni_1setopt__IILCurlRead_2
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_jni_1setopt__IILse_haxx_curl_CurlRead_2
   (JNIEnv *java, jobject myself, jint jcurl, jint option, jobject object)
 {
   jclass cls_local = (*java)->GetObjectClass(java, object);
@@ -329,30 +331,30 @@ JNIEXPORT jint JNICALL Java_CurlGlue_jni_1setopt__IILCurlRead_2
  * setopt() int + object
  */
 
-JNIEXPORT jint JNICALL Java_CurlGlue_jni_1setopt__IILCurlIO_2
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_jni_1setopt__IILse_haxx_curl_CurlIO_2
   (JNIEnv *java, jobject myself, jint jcurl, jint option, jobject object)
 {
   switch(option) {
 
   case CURLOPT_WRITEFUNCTION:
-    return Java_CurlGlue_jni_1setopt__IILCurlWrite_2(java, myself,
+    return Java_se_haxx_curl_CurlGlue_jni_1setopt__IILse_haxx_curl_CurlWrite_2(java, myself,
                                                      jcurl, option, object);
 
   case CURLOPT_READFUNCTION:
-    return Java_CurlGlue_jni_1setopt__IILCurlRead_2(java, myself,
+    return Java_se_haxx_curl_CurlGlue_jni_1setopt__IILse_haxx_curl_CurlRead_2(java, myself,
                                                     jcurl, option, object);
   }
 
   return 0;
 }
 
-JNIEXPORT jint JNICALL Java_CurlGlue_getinfo
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_getinfo
   (JNIEnv *java, jobject value)
 {
     return 0;
 }
 
-JNIEXPORT jint JNICALL Java_CurlGlue_jni_1perform
+JNIEXPORT jint JNICALL Java_se_haxx_curl_CurlGlue_jni_1perform
   (JNIEnv *java, jobject myself, jint jcurl)
 {
   struct curljava *curl=(struct curljava*)jcurl;

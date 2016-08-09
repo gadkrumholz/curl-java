@@ -56,7 +56,8 @@ public class MakeCurlGlue
     BufferedReader fis = new BufferedReader(
                          new InputStreamReader( System.in ) );
 
-    s = "// Automatically created class with defines extracted from curl.h." + ls +
+    s = "package se.haxx.curl;" + ls + ls +
+        "// Automatically created class with defines extracted from curl.h." + ls +
         "// The curl class is a JNI wrapper for libcurl." + ls +
         "// This is meant as a raw, crude and low-level interface to libcurl." + ls +
         "// this list is up-to-date as of cURL " + sVersion + ls + ls +

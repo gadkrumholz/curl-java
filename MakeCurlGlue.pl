@@ -17,6 +17,8 @@ while(<IN>) {
 close(IN);
 
 print <<EOTXT;
+package se.haxx.curl;
+
 /*
  * The curl class is a JNI wrapper for libcurl.
  * Please bear with me, I'm no true java dude (yet) - Daniel S.
