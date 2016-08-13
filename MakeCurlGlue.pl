@@ -57,51 +57,51 @@ print <<EOTXT;
 
   public CurlGlue() {
     try {
-      curljava_handle = jni_init();
+      handle = jni_init();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   public void finalize() {
-    jni_cleanup(curljava_handle);
+    jni_cleanup(handle);
   }
 
-  private int curljava_handle;
+  private long handle;
 
   /* constructor and destructor for the libcurl handle */
-  private native int jni_init();
-  private native void jni_cleanup(int curljava_handle);
-  private native synchronized int jni_perform(int curljava_handle);
+  private native long jni_init();
+  private native void jni_cleanup(long handle);
+  private native synchronized int jni_perform(long handle);
 
   // Instead of varargs, we have different functions for each
   // kind of type setopt() can take
-  private native int jni_setopt(int libcurl, int option, String value);
-  private native int jni_setopt(int libcurl, int option, int value);
-  private native int jni_setopt(int libcurl, int option, CurlWrite value);
-  private native int jni_setopt(int libcurl, int option, CurlRead value);
-  private native int jni_setopt(int libcurl, int option, CurlIO value);
+  private native int jni_setopt(long handle, int option, String value);
+  private native int jni_setopt(long handle, int option, int value);
+  private native int jni_setopt(long handle, int option, CurlWrite value);
+  private native int jni_setopt(long handle, int option, CurlRead value);
+  private native int jni_setopt(long handle, int option, CurlIO value);
 
   public native int getinfo();
   public static native String version();
 
   public int perform() {
-    return jni_perform(curljava_handle);
+    return jni_perform(handle);
   }
   public int setopt(int option, int value) {
-    return jni_setopt(curljava_handle, option, value);
+    return jni_setopt(handle, option, value);
   }
   public int setopt(int option, String value) {
-    return jni_setopt(curljava_handle, option, value);
+    return jni_setopt(handle, option, value);
   }
   public int setopt(int option, CurlWrite value) {
-    return jni_setopt(curljava_handle, option, value);
+    return jni_setopt(handle, option, value);
   }
   public int setopt(int option, CurlRead value) {
-    return jni_setopt(curljava_handle, option, value);
+    return jni_setopt(handle, option, value);
   }
   public int setopt(int option, CurlIO value) {
-    return jni_setopt(curljava_handle, option, value);
+    return jni_setopt(handle, option, value);
   }
 
   static {

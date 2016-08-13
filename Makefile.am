@@ -1,5 +1,7 @@
 jardir			=	@jardir@
 
+PACKAGE_PATH		=	se/haxx/curl
+PACKAGE_PREFIX		=	se.haxx.curl
 
 lib_LTLIBRARIES		=	libcurljava.la
 
@@ -10,8 +12,8 @@ libcurljava_la_LDFLAGS	=	-version-info @CURLJAVA_SONAME@	\
 
 curljava.o curljava.lo:		CurlGlue.h curljava.c
 
-CurlGlue.h:			se/haxx/curl/CurlGlue.java se/haxx/curl/CurlGlue.class
-	@JAVA_PATH@/javah -o CurlGlue.h se.haxx.curl.CurlGlue
+CurlGlue.h:			$(PACKAGE_PATH)/CurlGlue.java $(PACKAGE_PATH)/CurlGlue.class
+	@JAVA_PATH@/javah -o CurlGlue.h $(PACKAGE_PREFIX).CurlGlue
 	touch CurlGlue.h
 
 
@@ -21,17 +23,17 @@ CurlGlue.h:			se/haxx/curl/CurlGlue.java se/haxx/curl/CurlGlue.class
 	@JAVA_PATH@/javac $<
 
 
-CLASSES			=	se/haxx/curl/CurlGlue.class				\
-				se/haxx/curl/CurlRead.class				\
-				se/haxx/curl/CurlWrite.class				\
-				se/haxx/curl/CurlIO.class
+CLASSES			=	$(PACKAGE_PATH)/CurlGlue.class				\
+				$(PACKAGE_PATH)/CurlRead.class				\
+				$(PACKAGE_PATH)/CurlWrite.class				\
+				$(PACKAGE_PATH)/CurlIO.class
 
 jar_DATA		=	curljava.jar
 
 curljava.jar:			$(CLASSES)
 	@JAVA_PATH@/jar cvf $@ $(CLASSES)
 
-se/haxx/curl/CurlGlue.java:	MakeCurlGlue.class					\
+$(PACKAGE_PATH)/CurlGlue.java:	MakeCurlGlue.class					\
 		@CURL_INC@/curl/curl.h @CURL_INC@/curl/curlver.h
 	$(CC) -E -I@CURL_INC@ @CURL_INC@/curl/curl.h		|	\
 		@JAVA_PATH@/java MakeCurlGlue @CURL_INC@/curl/curlver.h > $@
@@ -45,7 +47,7 @@ test:				test.class
 
 clean-local:
 	$(RM) -rf aclocal.m4.bak
-	$(RM) -rf $(CLASSES) curljava.jar CurlGlue.h se/haxx/curl/CurlGlue.java
+	$(RM) -rf $(CLASSES) curljava.jar CurlGlue.h $(PACKAGE_PATH)/CurlGlue.java
 	$(RM) -rf test.class cookie.txt
 
 
@@ -65,9 +67,9 @@ OBSOLETE		=	Makefile.unix				\
 
 
 EXTRA_DIST		=	buildconf				\
-				se/haxx/curl/CurlRead.java				\
-				se/haxx/curl/CurlWrite.java				\
-				se/haxx/curl/CurlIO.java				\
+				$(PACKAGE_PATH)/CurlRead.java				\
+				$(PACKAGE_PATH)/CurlWrite.java				\
+				$(PACKAGE_PATH)/CurlIO.java				\
 				MakeCurlGlue.java			\
 				test.java				\
 				README					\
