@@ -82,49 +82,49 @@ public class MakeCurlGlue
     System.out.print( s );
     s = "  public CurlGlue() {" + ls +
         "    try {" + ls +
-        "      curljava_handle = jni_init();" + ls +
+        "      handle = jni_init();" + ls +
         "    } catch (Exception e) {" + ls +
         "      e.printStackTrace();" + ls +
         "    }" + ls +
         "  }" + ls + ls;
     System.out.print( s );
     s = "  public void finalize() {" + ls +
-        "    jni_cleanup(curljava_handle);" + ls +
+        "    jni_cleanup(handle);" + ls +
         "  }" + ls + ls +
-        "  private int curljava_handle;" + ls + ls +
+        "  private long handle;" + ls + ls +
         "  // constructor and destructor for the libcurl handle" + ls +
-        "  private native int jni_init();" + ls +
-        "  private native void jni_cleanup(int curljava_handle);" + ls +
-        "  private native synchronized int jni_perform(int curljava_handle);" + ls + ls;
+        "  private native long jni_init();" + ls +
+        "  private native void jni_cleanup(long handle);" + ls +
+        "  private native synchronized int jni_perform(long handle);" + ls + ls;
     System.out.print( s );
     s = "  // Instead of varargs, we have different functions for each" + ls +
         "  // kind of type setopt() can take" + ls +
-        "  private native int jni_setopt(int libcurl, int option, String value);" + ls +
-        "  private native int jni_setopt(int libcurl, int option, int value);" + ls +
-        "  private native int jni_setopt(int libcurl, int option, CurlWrite value);" + ls +
-        "  private native int jni_setopt(int libcurl, int option, CurlRead value);" + ls +
-        "  private native int jni_setopt(int libcurl, int option, CurlIO value);" + ls + ls +
+        "  private native int jni_setopt(long handle, int option, String value);" + ls +
+        "  private native int jni_setopt(long handle, int option, int value);" + ls +
+        "  private native int jni_setopt(long handle, int option, CurlWrite value);" + ls +
+        "  private native int jni_setopt(long handle, int option, CurlRead value);" + ls +
+        "  private native int jni_setopt(long handle, int option, CurlIO value);" + ls + ls +
         "  public native int getinfo();" + ls +
         "  public static native String version();" + ls + ls;
     System.out.print( s );
     s = "  public int perform() {" + ls +
-        "    return jni_perform(curljava_handle);" + ls +
+        "    return jni_perform(handle);" + ls +
         "  }" + ls +
         "  public int setopt(int option, int value) {" + ls +
-        "    return jni_setopt(curljava_handle, option, value);" + ls +
+        "    return jni_setopt(handle, option, value);" + ls +
         "  }" + ls +
         "  public int setopt(int option, String value) {" + ls +
-        "    return jni_setopt(curljava_handle, option, value);" + ls +
+        "    return jni_setopt(handle, option, value);" + ls +
         "  }" + ls;
     System.out.print( s );
     s = "  public int setopt(int option, CurlWrite value) {" + ls +
-        "    return jni_setopt(curljava_handle, option, value);" + ls +
+        "    return jni_setopt(handle, option, value);" + ls +
         "  }" + ls +
         "  public int setopt(int option, CurlRead value) {" + ls +
-        "    return jni_setopt(curljava_handle, option, value);" + ls +
+        "    return jni_setopt(handle, option, value);" + ls +
         "  }" + ls +
         "  public int setopt(int option, CurlIO value) {" + ls +
-        "    return jni_setopt(curljava_handle, option, value);" + ls +
+        "    return jni_setopt(handle, option, value);" + ls +
         "  }" + ls + ls;
     System.out.print( s );
     s = "  static {" + ls +

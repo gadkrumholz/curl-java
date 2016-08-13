@@ -13,6 +13,7 @@ import se.haxx.curl.CurlIO;
 
 class test extends CurlIO {
 
+    @Override
     public int handleString(byte s[])
     {
         /* output everything */
@@ -24,6 +25,7 @@ class test extends CurlIO {
         }
         catch (java.io.IOException moo) {
           // nothing
+          moo.printStackTrace();
         }
         return 0;
     }
@@ -40,7 +42,7 @@ class test extends CurlIO {
             bInsecureMode = ( args[0].compareTo("-k") == 0 ) ||
                             ( args[0].compareTo("--insecure") == 0 );
 
-        // System.out.println( "libcurl version: " + CurlGlue.version() );
+        System.out.println( "libcurl version: " + CurlGlue.version() );
         System.out.println( "Using " + (bInsecureMode ? "in" : "") + "secure certificate mode." );
 
         CurlGlue cg;
@@ -54,7 +56,7 @@ class test extends CurlIO {
 
             // Login to the bank's secure Web site, posting account number and PIN code
             cg.setopt(CurlGlue.CURLOPT_URL, "https://www.santander.com.mx/SuperNetII/servlet/Login");
-            cg.setopt(CurlGlue.CURLOPT_SSLVERSION, 3);
+            cg.setopt(CurlGlue.CURLOPT_SSLVERSION, 0); // SSLv3 is no longer supported
             cg.setopt(CurlGlue.CURLOPT_SSL_VERIFYPEER, bInsecureMode ? 0 : 1);
             cg.setopt(CurlGlue.CURLOPT_VERBOSE, 1);
             cg.setopt(CurlGlue.CURLOPT_FOLLOWLOCATION, 1);
@@ -65,7 +67,7 @@ class test extends CurlIO {
 
             // Access the bank account balance re-using the session ID stored in memory inside a cookie
             cg.setopt(CurlGlue.CURLOPT_URL, "https://www.santander.com.mx/SuperNetII/servlet/Cchequeras");
-            cg.setopt(CurlGlue.CURLOPT_SSLVERSION, 3);
+            cg.setopt(CurlGlue.CURLOPT_SSLVERSION, 0); // SSLv3 is no longer supported
             cg.setopt(CurlGlue.CURLOPT_SSL_VERIFYPEER, bInsecureMode ? 0 : 1);
             cg.setopt(CurlGlue.CURLOPT_VERBOSE, 1);
             cg.setopt(CurlGlue.CURLOPT_FOLLOWLOCATION, 1);
